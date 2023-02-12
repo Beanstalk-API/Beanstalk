@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "Poppins-Bold";
+  src: url('../Assets//Fonts/Poppins-Bold.ttf');
+}
+
+@font-face {
+  font-family: "Inconsolata-Regular";
+  src: url('../Assets//Fonts/Inconsolata-Regular.ttf');
+}
+
+:root {
+  font-family: "Poppins-Bold";
+  background-color: #000000;
+}
