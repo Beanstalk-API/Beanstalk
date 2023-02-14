@@ -19,15 +19,26 @@ import Logo from "@/Assets/Images/logo.png";
 // react codeblock
 import { CodeBlock, dracula } from "react-code-blocks";
 
+// monaco editor
+import Editor from "@monaco-editor/react";
+
 function GenerateAPIForm() {
   const [showForm, setShowForm] = useState(true);
   const [loading, setShowLoading] = useState(false);
-  const [code, setCode] = useState(``);
+  const [code, setCode] = useState({
+    language: "",
+    code: ""
+  });
   const [formData, setFormData] = useState({
     model_name: "",
     language: "",
+    framework: "",
     backend: "",
   });
+
+  function handleEditorChange(value, event) {
+    console.log("here is the current model value:", value);
+  }
 
   const generateAPI = async (e) => {
     e.preventDefault();
@@ -42,7 +53,7 @@ function GenerateAPIForm() {
       body: JSON.stringify(formData),
     });
 
-    const data = await res.text();
+    const data = await res.json();
     setCode(data);
     setShowLoading(false);
   };
@@ -80,13 +91,28 @@ function GenerateAPIForm() {
               </Row>
               <Row className={`${style.input_container}`}>
                 <Col className="d-flex justify-content-center align-items-center">
-                  <label>Language/Framework:</label>
+                  <label>Language:</label>
                 </Col>
                 <Col className="d-flex justify-content-center align-items-center">
                   <input
                     value={formData.language}
                     onChange={(e) =>
                       setFormData({ ...formData, language: e.target.value })
+                    }
+                    className={`${style.form_input}`}
+                    type="text"
+                  />
+                </Col>
+              </Row>
+              <Row className={`${style.input_container}`}>
+                <Col className="d-flex justify-content-center align-items-center">
+                  <label>Framework:</label>
+                </Col>
+                <Col className="d-flex justify-content-center align-items-center">
+                  <input
+                    value={formData.framework}
+                    onChange={(e) =>
+                      setFormData({ ...formData, framework: e.target.value })
                     }
                     className={`${style.form_input}`}
                     type="text"
@@ -121,10 +147,18 @@ function GenerateAPIForm() {
               </>
             ) : (
               <>
-                <div
+                {/* <div
                   className={`${style.editor_container}`}
                   dangerouslySetInnerHTML={{ __html: code }}
-                ></div>
+                ></div> */}
+                <Editor
+                height="90vh"
+                defaultLanguage={code.language}
+                defaultValue={`${code.code.slice(1,-1)}`}
+                theme="vs-dark"
+                onChange={handleEditorChange}
+                />
+                
               </>
             )}
           </>

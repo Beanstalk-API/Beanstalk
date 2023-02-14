@@ -22,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-openai.api_key = "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"
+openai.api_key = ""
 
 
 @app.get("/")
@@ -31,7 +31,7 @@ async def root():
 
 @app.post("/generate_api")
 async def generate_api(api_details: APIDetails):
-    prompt = f"For a {api_details.model_name} database model , generate {api_details.backend} db connection for {api_details.language}, {api_details.language} database model, {api_details.language} CRUD endpoints code.format the code neatly in html with appropriate styling."
+    prompt = f"For a {api_details.model_name} database model , generate {api_details.backend} db connection for {api_details.framework}, {api_details.framework} database model, {api_details.framework} CRUD endpoints code. Appropriately comment each section"
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -41,6 +41,11 @@ async def generate_api(api_details: APIDetails):
     
     
     api_code = response["choices"][0]["text"]
-    api_code = api_code.replace('\n','<br/>')
-    api_code = api_code.replace('\t','')
-    return api_code
+    api_code = api_code.replace('"', '')
+    res_dict = {}
+
+    lang = api_details.language
+
+    res_dict['language'] = lang.lower()
+    res_dict['code'] = api_code
+    return res_dict
