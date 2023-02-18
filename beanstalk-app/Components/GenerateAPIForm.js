@@ -27,7 +27,7 @@ function GenerateAPIForm() {
   const [loading, setShowLoading] = useState(false);
   const [code, setCode] = useState({
     language: "",
-    code: ""
+    code: "",
   });
   const [formData, setFormData] = useState({
     model_name: "",
@@ -44,14 +44,17 @@ function GenerateAPIForm() {
     e.preventDefault();
     setShowForm(false);
     setShowLoading(true);
-    const res = await fetch("http://127.0.0.1:8000/generate_api", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const res = await fetch(
+      "https://beanstalkapi.senor-duckyduck.repl.co/generate_api",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
     const data = await res.json();
     setCode(data);
@@ -152,13 +155,12 @@ function GenerateAPIForm() {
                   dangerouslySetInnerHTML={{ __html: code }}
                 ></div> */}
                 <Editor
-                height="90vh"
-                defaultLanguage={code.language}
-                defaultValue={`${code.code.slice(1,-1)}`}
-                theme="vs-dark"
-                onChange={handleEditorChange}
+                  height="90vh"
+                  defaultLanguage={code.language}
+                  defaultValue={`${code.code.slice(1, -1)}`}
+                  theme="vs-dark"
+                  onChange={handleEditorChange}
                 />
-                
               </>
             )}
           </>

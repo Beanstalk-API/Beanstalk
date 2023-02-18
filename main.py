@@ -5,6 +5,7 @@ from models import APIDetails
 import openai
 from fastapi.middleware.cors import CORSMiddleware
 import markdown
+import uvicorn
 
 app = FastAPI()
 
@@ -49,3 +50,5 @@ async def generate_api(api_details: APIDetails):
     res_dict['language'] = lang.lower()
     res_dict['code'] = api_code
     return res_dict
+
+uvicorn.run(app, port=8080, host="0.0.0.0")
