@@ -48,7 +48,6 @@ function GenerateAPIForm() {
       "https://beanstalkapi.senor-duckyduck.repl.co/generate_api",
       {
         method: "POST",
-        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
